@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HWI – Hukum Waris Islam | Platform Edukasi Interaktif IAIN Datuk Laksmana</title>
+  <meta name="description" content="Platform edukasi interaktif Hukum Waris Islam (Faraidh) oleh Mahasiswa HKI IAIN Datuk Laksmana Bengkalis. Pelajari pembagian harta warisan berdasarkan syariat Islam secara menyenangkan." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+clear
+  <!-- Google Fonts: Inter + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            emerald: {
+              50:  '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22',
+            },
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'pulse-ring': 'pulse-ring 2s ease-in-out infinite',
+            'slide-in-right': 'slide-in-right 0.4s cubic-bezier(0.16,1,0.3,1)',
+            'fade-up': 'fade-up 0.5s ease-out',
+            'spin-slow': 'spin 8s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            'pulse-ring': {
+              '0%, 100%': { boxShadow: '0 0 0 0 rgba(4,120,87,0.3)' },
+              '50%': { boxShadow: '0 0 0 14px rgba(4,120,87,0)' },
+            },
+            'slide-in-right': {
+              from: { transform: 'translateX(100%)', opacity: '0' },
+              to:   { transform: 'translateX(0)',    opacity: '1' },
+            },
+            'fade-up': {
+              from: { transform: 'translateY(24px)', opacity: '0' },
+              to:   { transform: 'translateY(0)',     opacity: '1' },
+            },
+          },
+          boxShadow: {
+            'card': '0 2px 12px 0 rgba(0,0,0,0.07)',
+            'card-hover': '0 8px 32px 0 rgba(4,120,87,0.13)',
+            'nav': '0 1px 0 0 rgba(0,0,0,0.08)',
+          }
+          
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ─── Base ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: #f8fafc; /* slate-50 */
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Progress Bar ──────────────────────────── */
+    #progress-bar-fill {
+      transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+      background-color: #047857; /* emerald-700 */
+    }
+
+    /* ─── Pages ─────────────────────────────────── */
+    .page { display: none; animation: fadeUp 0.4s ease-out; }
+    .page.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Nav Active ────────────────────────────── */
+    .nav-btn { transition: all 0.25s ease; }
+    .nav-btn.active {
+      background-color: #047857;
+      color: #ffffff;
+      box-shadow: 0 2px 8px 0 rgba(4,120,87,0.25);
+    }
+    .nav-btn:not(.active):hover { background-color: #ecfdf5; color: #047857; }
+
+    /* ─── Mobile Drawer ─────────────────────────── */
+    #mobile-drawer {
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    #mobile-drawer.open { transform: translateX(0); }
+
+    /* ─── Accordion ─────────────────────────────── */
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .accordion-body.open { max-height: 1200px; }
+    .accordion-arrow { transition: transform 0.3s ease; }
+    .accordion-arrow.rotated { transform: rotate(180deg); }
+
+    /* ─── Module Cards ──────────────────────────── */
+    .module-card { transition: box-shadow 0.25s, border-color 0.25s; }
+    .module-card:hover { box-shadow: 0 8px 32px 0 rgba(4,120,87,0.12); }
+    .module-card.open { border-color: #047857; }
+
+    /* ─── Article Cards ─────────────────────────── */
+    .article-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px 0 rgba(4,120,87,0.14); }
+
+    /* ─── Modal ─────────────────────────────────── */
+    #article-modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #article-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #modal-content-box {
+      transform: scale(0.94) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    #article-modal.open #modal-content-box { transform: scale(1) translateY(0); }
+
+    /* ─── Quiz ──────────────────────────────────── */
+    .quiz-option { transition: all 0.2s ease; }
+    .quiz-option:hover:not(.answered) { border-color: #047857; background-color: #ecfdf5; }
+    .quiz-option.correct  { background-color: #d1fae5; border-color: #059669; color: #064e3b; }
+    .quiz-option.wrong    { background-color: #fee2e2; border-color: #ef4444; color: #7f1d1d; }
+
+    /* ─── Scenario Card ─────────────────────────── */
+    .scenario-btn { transition: all 0.25s ease; }
+    .scenario-btn.active {
+      background-color: #047857;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(4,120,87,0.3);
+    }
+
+    /* ─── Quran Block ────────────────────────────── */
+    .quran-block {
+      border-left: 4px solid #047857;
+      background-color: #f0fdf4;
+      border-radius: 0 12px 12px 0;
+    }
+
+    /* ─── Floating QM Badge ─────────────────────── */
+    .qm-badge {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* ─── CTA Pulse Button ──────────────────────── */
+    .pulse-btn {
+      animation: pulse-ring 2s ease-in-out infinite;
+    }
+
+    /* ─── Progress tracker badges ───────────────── */
+    .read-badge {
+      display: none;
+    }
+    .read-badge.visible { display: inline-flex; }
+
+    /* ─── Form floating label ────────────────────── */
+    .form-group { position: relative; }
+    .form-group input,
+    .form-group textarea {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #047857;
+      box-shadow: 0 0 0 3px rgba(4,120,87,0.12);
+    }
+
+    /* ─── Scrollbar ──────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #a7f3d0; border-radius: 99px; }
+
+    /* ─── Hero image placeholder ─────────────────── */
+    .hero-visual {
+      background-color: #d1fae5;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+  .hero-bg{
+      position: relative;
+      overflow: hidden;
+  }
+
+  .hero-bg::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+          linear-gradient(
+              rgba(0, 0, 0, 0.20),
+              rgba(0, 0, 0, 0.20)
+          ),
+          url('hartaa warisan.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      transform: scaleX(-1); /* Mirror horizontal */
+      z-index: 0;
+  }
+
+  .hero-bg > *{
+      position: relative;
+      z-index: 1;
+  }
+  .shadow-card{
+      box-shadow:
+          0 2px 5px rgba(0,0,0,.08),
+          0 8px 20px rgba(0,0,0,.08);
+  }
+
+  .backdrop-blur-md{
+      backdrop-filter: blur(12px);
+  }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GLOBAL PROGRESS BAR
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="progress-bar-wrap" class="fixed top-0 left-0 w-full h-1 z-[9999] bg-emerald-100">
+    <div id="progress-bar-fill" class="h-full" style="width:0%"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-1 left-0 w-full z-[999] bg-white/90 backdrop-blur-xl border-b border-slate-200/70" style="margin-top:4px">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <button onclick="navigateTo('beranda')" class="flex flex-col items-start group cursor-pointer">
+        <span class="text-2xl font-black text-emerald-700 tracking-tight leading-none group-hover:text-emerald-800 transition-colors">HWI</span>
+        <span class="text-[9px] font-semibold text-slate-400 tracking-[0.2em] uppercase leading-none mt-0.5">Hukum Waris Islam</span>
+      </button>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-1">
+        <button id="nav-beranda"          onclick="navigateTo('beranda')"          class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600">Beranda</button>
+        <button id="nav-panduan-waris"     onclick="navigateTo('panduan-waris')"     class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600">Panduan Waris</button>
+        <button id="nav-artikel-edukasi"  onclick="navigateTo('artikel-edukasi')"  class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600">Artikel</button>
+        <button id="nav-profil-kontak"    onclick="navigateTo('profil-kontak')"    class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600">Profil</button>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button id="hamburger-btn" onclick="toggleDrawer()" class="md:hidden flex flex-col gap-1.5 p-2 rounded-xl hover:bg-slate-100 transition-colors" aria-label="Buka menu">
+        <span class="block w-5 h-0.5 bg-slate-700 rounded-full transition-all" id="ham-1"></span>
+        <span class="block w-5 h-0.5 bg-slate-700 rounded-full transition-all" id="ham-2"></span>
+        <span class="block w-4 h-0.5 bg-slate-500 rounded-full transition-all" id="ham-3"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ─── Mobile Drawer ─────────────────────────── -->
+  <div id="drawer-overlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[998] hidden"></div>
+  <aside id="mobile-drawer" class="fixed top-0 right-0 h-full w-72 bg-white z-[9999] shadow-2xl flex flex-col pt-20 px-6 gap-2">
+    <button onclick="navigateTo('beranda');toggleDrawer()"          class="nav-btn text-left px-4 py-3 rounded-2xl text-sm font-semibold text-slate-700 w-full">Beranda</button>
+    <button onclick="navigateTo('panduan-waris');toggleDrawer()"     class="nav-btn text-left px-4 py-3 rounded-2xl text-sm font-semibold text-slate-700 w-full">Panduan Waris</button>
+    <button onclick="navigateTo('artikel-edukasi');toggleDrawer()"  class="nav-btn text-left px-4 py-3 rounded-2xl text-sm font-semibold text-slate-700 w-full">Artikel</button>
+    <button onclick="navigateTo('profil-kontak');toggleDrawer()"    class="nav-btn text-left px-4 py-3 rounded-2xl text-sm font-semibold text-slate-700 w-full">Profil</button>
+    <div class="mt-auto mb-8 text-xs text-slate-400 text-center">HWI © 2026 · Aisha Nurzahra</div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════cl
+       MAIN CONTENT WRAPPER
+  ═══════════════════════════════════════════════════════════ -->
+  <main class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE: BERANDA
+    ═══════════════════════════════════════════════════════ -->
+    <section id="page-beranda" class="page active">
+
+      <div class="grid lg:grid-cols-2 gap-20 items-center min-h-[80vh] px-8 lg:px-20 pt-12">
+
+          <div >
+              <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+                  <span>
+                      Kuasai Ilmu <span class="text-emerald-600"> Hukum Waris Islam</span>
+                  </span>
+                  <br>
+                  Secara Interaktif
+              </h1>
+
+              <p class="mt-8 text-gray-700 text-lg leading-relaxed max-w-xl">
+                  Selamat datang di Website Hukum Waris Islam. Website ini menyediakan
+                  informasi dan edukasi mengenai pembagian harta warisan berdasarkan
+                  syariat Islam.
+              </p>
+
+              <button
+                  class="mt-10 bg-emerald-700 hover:bg-emerald-800 text-white px-8 py-4 rounded-2xl font-bold">
+                  Mulai Belajar
+              </button>
+
+              <div class="flex items-center gap-10 mt-12">
+                  <div>
+                      <div class="text-3xl font-black">5+</div>
+                      <div class="text-gray-500">Modul Materi</div>
+                  </div>
+
+                  <div class="w-px h-16 bg-gray-300"></div>
+
+                  <div>
+                      <div class="text-3xl font-black">8</div>
+                      <div class="text-gray-500">Artikel Edukasi</div>
+                  </div>
+              </div>
+          </div>
+
+          <div>
+              <img
+                  src="hartaa warisan.jpg"
+                  class="rounded-[30px] shadow-2xl w-full"
+                  alt="">
+          </div>
+
+      </div>
+
+      <!-- About Card -->
+      <div class=" mt-10 bg-white rounded-3xl border border-slate-200 shadow-card p-8 mb-10">
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="md:col-span-2">
+            <div class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Tentang Website</div>
+            <h2 class="text-2xl font-black text-slate-800 mb-3">Media Edukasi Hukum Waris Islam</h2>
+            <p class="text-slate-500 leading-relaxed text-sm">
+              Website ini dibuat sebagai media edukasi untuk meningkatkan pemahaman masyarakat mengenai hukum waris Islam. Informasi yang disajikan bertujuan membantu masyarakat memahami hak dan kewajiban ahli waris serta pentingnya pembagian warisan sesuai syariat Islam.
+            </p>
+          </div>
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-3 bg-emerald-50 rounded-2xl p-3 border border-emerald-100">
+              <span class="text-2xl"></span>
+              <div>
+                <div class="font-bold text-sm text-slate-800">Berbasis Al-Qur'an</div>
+                <div class="text-xs text-slate-400">Surah An-Nisa & Hadist</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-blue-50 rounded-2xl p-3 border border-blue-100">
+              <span class="text-2xl"></span>
+              <div>
+                <div class="font-bold text-sm text-slate-800">Akademis & Valid</div>
+                <div class="text-xs text-slate-400">Disusun oleh Mahasiswa HKI</div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Big CTA / Thinking Pose -->
+      <div class="rounded-3xl border border-emerald-100 p-8 lg:p-12">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <!-- Left: Visual -->
+          <div class="space-y-5">
+            <h2 class="text-3xl lg:text-4xl font-black text-slate-800 leading-tight">
+              Jadi, Apa sih <span class="text-emerald-700">Hukum Warisan Islam</span> itu?
+            </h2>
+            
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-center gap-2 text-slate-600"><span class="w-5 h-5 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold">✓</span> Siapa saja yang berhak menerima warisan?</li>
+              <li class="flex items-center gap-2 text-slate-600"><span class="w-5 h-5 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold">✓</span> Berapa bagian masing-masing ahli waris?</li>
+              <li class="flex items-center gap-2 text-slate-600"><span class="w-5 h-5 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold">✓</span> Apa yang menjadi penghalang waris?</li>
+            </ul>
+            <button onclick="navigateTo('panduan-waris')" class="pulse-btn inline-flex items-center gap-2 bg-emerald-700 text-white px-8 py-4 rounded-2xl font-bold text-sm hover:bg-emerald-800 transition-colors">
+              Mulai Belajar
+            </button>
+          </div>
+
+          <!-- Right: Text + CTA -->
+          <div class="flex justify-center">
+            <div class="relative">
+                
+                <!-- Card Gambar -->
+                <div class="w-64 h-69 lg:w-64 lg:h-69 rounded-2xl overflow-hidden">
+                    <img
+                        src="bertanya.png"
+                        alt="Orang Berpikir"
+                        class="w-full h-full object-cover">
+                </div>
+
+                <!-- Floating QM Badge -->
+                <div class="qm-badge absolute -top-3 -right-3 w-14 h-14 bg-white rounded-2xl shadow-lg border border-emerald-200 flex items-center justify-center">
+                    <span class="text-2xl font-black text-emerald-600">?</span>
+                </div>
+
+            </div>
+        </div>
+        </div>
+      </div>
+
+    </section><!-- /beranda -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE: PANDUAN WARIS
+    ═══════════════════════════════════════════════════════ -->
+    <section id="page-panduan-waris" class="page">
+
+      <div class="py-10">
+        <div class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Panduan Waris</div>
+        <h1 class="text-3xl font-black text-slate-800 mb-1">Kurikulum Interaktif Faraidh</h1>
+        <p class="text-slate-400 text-sm">Simulasi kasus nyata + 5 modul inti yang dapat diperluas.</p>
+      </div>
+
+      <!-- ─── Module Accordions ─────────────────────── -->
+      <div class="space-y-4" id="modules-container">
+        <!-- Filled by JS -->
+      </div>
+
+    </section><!-- /panduan-waris -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE: ARTIKEL EDUKASI
+    ═══════════════════════════════════════════════════════ -->
+    <section id="page-artikel-edukasi" class="page">
+
+      <div class="py-10">
+        <div class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">Artikel Edukasi</div>
+        <h1 class="text-3xl font-black text-slate-800 mb-1">Bacaan Lengkap Hukum Waris Islam</h1>
+        <p class="text-slate-400 text-sm">8 artikel terstruktur untuk pemahaman mendalam.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="article-grid">
+        <!-- Filled by JS -->
+      </div>
+
+    </section><!-- /artikel-edukasi -->
+
+    
+
+   <!-- ═══════════════════════════════════════════════════════
+     PAGE: PROFIL & KONTAK
+    ═══════════════════════════════════════════════════════ -->
+    <section id="page-profil-kontak" class="page">
+
+      <!-- Header -->
+      <div class="mt-10 mb-12">
+        <div class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2">
+          Profil
+        </div>
+
+        <h2 class="text-3xl font-black text-slate-800 mb-3">
+          Tentang Saya& Kontak
+        </h2>
+
+        <p class="text-slate-500 leading-relaxed max-w-2xl">
+          Informasi mengenai profil, visi dan misi, serta kontak yang dapat Anda hubungi.
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+        <!-- Profile Card -->
+        <div class="flex justify-center">
+          <div class="relative w-full max-w-sm overflow-hidden rounded-[40px] shadow-card">
+
+            <!-- Foto -->
+            <img
+              src="foto profile.jpeg"
+              alt="Foto Profil"
+              class="w-full h-[550px] object-cover"
+            >
+
+            <!-- Glass Overlay -->
+            <div
+              class="absolute bottom-0 left-0 right-0
+                    backdrop-blur-md
+                    bg-white/20
+                    border border-white/20
+                    p-8 rounded-t-[40px] text-center text-white">
+
+              <h3 class="text-3xl font-bold mb-6">
+                Aisha Nurzahra
+              </h3>
+
+              <div class="mb-6">
+                <p class="text-sm opacity-90">Program Studi:</p>
+                <p class="font-semibold">
+                  S1 Hukum Keluarga Islam
+                </p>
+              </div>
+
+              <div>
+                <p class="text-sm opacity-90">Institusi:</p>
+                <p class="font-semibold">
+                  IAIN Datuk Laksemana Bengkalis
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="space-y-8">
+
+          <!-- Visi Misi -->
+          <div
+            class="bg-white rounded-3xl border border-emerald-200 shadow-card p-8">
+
+            <div class="mb-8">
+              <h3 class="text-xl font-bold text-emerald-700 mb-3">
+                Visi
+              </h3>
+
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Menjadi platform edukasi digital terdepan yang mentransformasikan
+                pembelajaran Hukum Waris Islam menjadi lebih mudah, interaktif,
+                dan aksesibel bagi generasi muda serta masyarakat luas.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-xl font-bold text-emerald-700 mb-3">
+                Misi
+              </h3>
+
+              <p class="text-slate-600 text-sm leading-relaxed">
+                Menyederhanakan kompleksitas hukum waris Islam melalui modul visual,
+                guna meningkatkan literasi masyarakat sekaligus mencegah potensi
+                sengketa keluarga melalui pendekatan teknologi yang ramah pengguna.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Kontak -->
+          <div>
+
+            <h3 class="text-center text-lg font-black text-slate-800 mb-6">
+              Kontak
+            </h3>
+
+            <div class="space-y-4">
+
+              <!-- Instagram -->
+              <a href="https://www.instagram.com/aishanurzahra?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                class="flex items-center justify-center gap-4 h-16 bg-white rounded-2xl border border-slate-200 hover:border-emerald-300 transition">
+
+                <img
+                  src="Instagram.png"
+                  alt="Instagram"
+                  class="w-8 h-8 object-contain">
+
+                <span class="font-medium text-slate-700">
+                  Instagram
+                </span>
+              </a>
+
+              <!-- Email -->
+              <a href="mailto:aisyahnurzahara120@gmail.com"
+                class="flex items-center justify-center gap-4 h-16 bg-white rounded-2xl border border-slate-200 hover:border-emerald-300 transition">
+
+                <img
+                  src="email (2).png"
+                  alt="Email"
+                  class="w-6 h-6 object-contain">
+
+                <span class="font-medium text-slate-700">
+                  Email
+                </span>
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-4">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-slate-400">© 2026 HWI · Platform Edukasi Hukum Waris Islam · Aisha Nurzahra</div>
+      <div class="flex gap-4 text-xs text-slate-400">
+        <button onclick="navigateTo('beranda')" class="hover:text-emerald-600 transition-colors">Beranda</button>
+        <button onclick="navigateTo('panduan-waris')" class="hover:text-emerald-600 transition-colors">Panduan Waris</button>
+        <button onclick="navigateTo('artikel-edukasi')" class="hover:text-emerald-600 transition-colors">Artikel</button>
+        <button onclick="navigateTo('profil-kontak')" class="hover:text-emerald-600 transition-colors">Kontak</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ARTICLE MODAL
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="article-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div id="modal-content-box" class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between p-6 border-b border-slate-100">
+        <div class="flex-1 pr-4">
+          <div id="modal-category" class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1"></div>
+          <h3 id="modal-title" class="font-black text-slate-800 text-xl leading-tight"></h3>
+        </div>
+        <button onclick="closeModal()" class="w-9 h-9 rounded-2xl bg-slate-100 hover:bg-red-50 hover:text-red-500 flex items-center justify-center text-slate-500 font-bold text-lg transition-colors flex-shrink-0">✕</button>
+      </div>
+      <!-- Modal Body -->
+      <div id="modal-body" class="flex-1 overflow-y-auto p-6 text-sm text-slate-600 leading-relaxed space-y-4"></div>
+      <!-- Modal Footer -->
+      <div class="p-6 border-t border-slate-100 flex items-center justify-between">
+        <div id="modal-read-status" class="text-xs text-slate-400 font-medium"></div>
+        <button id="modal-mark-read-btn" onclick="markArticleRead()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2">
+          <span id="mark-read-icon">☐</span>
+          <span id="mark-read-text">Tandai Selesai Dibaca</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════════════════════════════
+       JAVASCRIPT – ALL LOGIC
+  ═══════════════════════════════════════════════════════════ -->
+  <script>
+  /* ════════════════════════════════════════════════════
+     STATE
+  ════════════════════════════════════════════════════ */
+  const state = {
+    currentPage: 'beranda',
+    openModules: new Set(),
+    openFaqs: new Set(),
+    articlesRead: new Set(),
+    quizAnswers: {},   // { qIndex: true/false }
+    quizScore: 0,
+    currentModalArticleIndex: null,
+    modulesVisited: new Set(),
+    lastQuizScore: null,
+  };
+
+  /* ════════════════════════════════════════════════════
+     DATA: MODULES
+  ════════════════════════════════════════════════════ */
+  const modules = [
+    {
+      id: 'mod-1',
+      icon: '📜',
+      number: '01',
+      title: 'Pengertian Hukum Waris Islam',
+      tag: 'Definisi & Konsep',
+      tagColor: 'bg-blue-100 text-blue-700',
+      content: `
+        <p class="text-slate-600 leading-relaxed">
+          <strong class="text-slate-800">Hukum Waris Islam</strong>, atau dikenal dengan istilah <em>Faraidh</em>, adalah seperangkat aturan dan ketentuan hukum Islam yang mengatur tentang perpindahan harta kekayaan seseorang yang telah meninggal dunia kepada orang-orang yang berhak menerimanya (ahli waris), sesuai dengan ketentuan Al-Qur'an, Hadits, dan Ijma' ulama.
+        </p>
+        <p class="text-slate-600 leading-relaxed">
+          Kata <em>faraidh</em> berasal dari bahasa Arab <em>fardh</em> (فرض) yang bermakna "kewajiban" atau "bagian yang telah ditentukan". Ilmu ini sangat penting karena menyangkut hak-hak asasi setiap individu dalam keluarga dan memiliki landasan hukum yang sangat kuat dalam Al-Qur'an.
+        </p>
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Rukun Pewarisan Islam</div>
+          <div class="grid sm:grid-cols-3 gap-3">
+            <div class="bg-white rounded-xl p-3 border border-slate-200 text-center">
+              <div class="text-xl mb-1">👤</div>
+              <div class="font-bold text-sm text-slate-700">Al-Muwarrits</div>
+              <div class="text-xs text-slate-400">Orang yang meninggal (Pewaris)</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 border border-slate-200 text-center">
+              <div class="text-xl mb-1">👨‍👩‍👧</div>
+              <div class="font-bold text-sm text-slate-700">Al-Warits</div>
+              <div class="text-xs text-slate-400">Ahli waris yang menerima</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 border border-slate-200 text-center">
+              <div class="text-xl mb-1">💰</div>
+              <div class="font-bold text-sm text-slate-700">Al-Mauruts</div>
+              <div class="text-xs text-slate-400">Harta yang diwariskan</div>
+            </div>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 'mod-2',
+      icon: '⚖️',
+      number: '02',
+      title: 'Dasar Hukum Waris Islam',
+      tag: 'Al-Qur\'an & Hadits',
+      tagColor: 'bg-emerald-100 text-emerald-700',
+      content: `
+        <p class="text-slate-600 leading-relaxed">
+          Hukum waris Islam memiliki landasan normatif yang sangat kuat. Sumber utamanya adalah Al-Qur'an, Hadits Nabi Muhammad SAW, dan Ijma' ulama.
+        </p>
+
+        <div class="quran-block p-5 my-4">
+          <div class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">📖 QS. An-Nisa: 11</div>
+          <p class="text-right text-xl text-slate-800 mb-3 leading-loose font-serif" dir="rtl">
+            يُوصِيكُمُ اللَّهُ فِي أَوْلَادِكُمْ ۖ لِلذَّكَرِ مِثْلُ حَظِّ الْأُنثَيَيْنِ
+          </p>
+          <p class="text-sm text-slate-600 italic border-t border-emerald-200 pt-3">
+            "Allah mensyariatkan bagimu tentang (pembagian warisan untuk) anak-anakmu, yaitu bagian seorang anak laki-laki sama dengan bagian dua orang anak perempuan."
+          </p>
+        </div>
+
+        <div class="quran-block p-5 my-4">
+          <div class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-3">📖 QS. An-Nisa: 12</div>
+          <p class="text-right text-xl text-slate-800 mb-3 leading-loose font-serif" dir="rtl">
+            وَلَكُمْ نِصْفُ مَا تَرَكَ أَزْوَاجُكُمْ إِن لَّمْ يَكُن لَّهُنَّ وَلَدٌ
+          </p>
+          <p class="text-sm text-slate-600 italic border-t border-emerald-200 pt-3">
+            "Dan bagimu (suami-suami) seperdua dari harta yang ditinggalkan oleh istri-istrimu, jika mereka tidak mempunyai anak."
+          </p>
+        </div>
+
+        <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200">
+          <div class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-2">📜 Hadits Nabi SAW</div>
+          <p class="text-sm text-slate-700 italic">"Bagilah harta warisan di antara ahli waris sesuai Kitabullah (Al-Qur'an)." <span class="text-slate-400 not-italic">(HR. Muslim)</span></p>
+        </div>
+      `
+    },
+    {
+      id: 'mod-3',
+      icon: '👥',
+      number: '03',
+      title: 'Ahli Waris dalam Islam',
+      tag: 'Golongan & Kelompok',
+      tagColor: 'bg-violet-100 text-violet-700',
+      content: `
+        <p class="text-slate-600 leading-relaxed">
+          Ahli waris dalam Islam dibagi menjadi dua kelompok besar: <strong>Ahli Waris Nasabiyah</strong> (berdasarkan hubungan darah) dan <strong>Ahli Waris Sababiyah</strong> (berdasarkan pernikahan).
+        </p>
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 mt-4">Ahli Waris Utama (Ashabul Furudh)</div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          ${[
+            { nama: 'Ayah', icon: '👨', bagian: '1/6 atau Asabah' },
+            { nama: 'Ibu', icon: '👩', bagian: '1/6 atau 1/3' },
+            { nama: 'Suami', icon: '🤵', bagian: '1/2 atau 1/4' },
+            { nama: 'Istri', icon: '👰', bagian: '1/4 atau 1/8' },
+            { nama: 'Anak Laki-laki', icon: '👦', bagian: 'Asabah Binafsih' },
+            { nama: 'Anak Perempuan', icon: '👧', bagian: '1/2, 2/3, atau Asabah' },
+          ].map(a => `
+            <div class="bg-white border border-slate-200 rounded-2xl p-3 text-center hover:border-emerald-300 hover:shadow-sm transition-all">
+              <div class="text-2xl mb-1">${a.icon}</div>
+              <div class="font-bold text-slate-800 text-xs">${a.nama}</div>
+              <div class="text-[10px] text-emerald-600 font-semibold mt-0.5">${a.bagian}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 mt-4">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Golongan Ahli Waris</div>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">Dzawil Furudh (Bagian Tertentu)</span>
+            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">Asabah (Sisa Harta)</span>
+            <span class="bg-violet-100 text-violet-700 text-xs font-bold px-3 py-1 rounded-full">Dzawil Arham (Hubungan Jauh)</span>
+          </div>
+        </div>
+      `
+    },
+    {
+      id: 'mod-4',
+      icon: '📊',
+      number: '04',
+      title: 'Bagian-Bagian Ahli Waris',
+      tag: 'Fardhu & Perhitungan',
+      tagColor: 'bg-amber-100 text-amber-700',
+      content: `
+        <p class="text-slate-600 leading-relaxed">
+          Islam telah menetapkan enam bagian (fardhu) yang menjadi hak ahli waris, yaitu: <strong>1/2, 1/4, 1/8, 2/3, 1/3,</strong> dan <strong>1/6</strong>.
+        </p>
+        <div class="overflow-x-auto rounded-2xl border border-slate-200 mt-4">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase">
+              <tr>
+                <th class="px-4 py-3">Ahli Waris</th>
+                <th class="px-4 py-3">Bagian</th>
+                <th class="px-4 py-3">Syarat/Kondisi</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              ${[
+                ['Suami', '1/2', 'Jika tidak ada anak'],
+                ['Suami', '1/4', 'Jika ada anak'],
+                ['Istri', '1/4', 'Jika tidak ada anak'],
+                ['Istri', '1/8', 'Jika ada anak'],
+                ['Anak Perempuan (1)', '1/2', 'Sendiri, tidak ada saudara laki-laki'],
+                ['Anak Perempuan (2+)', '2/3', 'Bersama, tidak ada saudara laki-laki'],
+                ['Ibu', '1/3', 'Tidak ada anak / saudara lebih dari 1'],
+                ['Ibu', '1/6', 'Ada anak atau 2+ saudara'],
+                ['Ayah', '1/6', 'Ada anak laki-laki'],
+                ['Ayah', 'Asabah', 'Tidak ada anak laki-laki'],
+              ].map((r, i) => `
+                <tr class="${i%2===0?'bg-white':'bg-slate-50/50'}">
+                  <td class="px-4 py-2.5 font-semibold text-slate-700">${r[0]}</td>
+                  <td class="px-4 py-2.5"><span class="bg-emerald-100 text-emerald-700 font-bold text-xs px-2 py-0.5 rounded-lg">${r[1]}</span></td>
+                  <td class="px-4 py-2.5 text-slate-400 text-xs">${r[2]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `
+    },
+    {
+      id: 'mod-5',
+      icon: '🚫',
+      number: '05',
+      title: 'Penghalang Waris (Mawani\'ul Irts)',
+      tag: 'Larangan & Syarat',
+      tagColor: 'bg-red-100 text-red-700',
+      content: `
+        <p class="text-slate-600 leading-relaxed">
+          Terdapat hal-hal yang dapat menghalangi seseorang dari mendapat warisan meskipun ia termasuk dalam urutan ahli waris. Ini disebut <strong>Mawani'ul Irts</strong> (penghalang waris).
+        </p>
+        <div class="space-y-3 mt-4">
+          ${[
+            { icon: '⚔️', title: 'Pembunuhan (Al-Qatl)', desc: 'Seseorang yang membunuh pewaris tidak berhak mewarisi harta si korban. HR. Tirmidzi: "Pembunuh tidak mewarisi."', color: 'border-red-200 bg-red-50' },
+            { icon: '🔄', title: 'Berbeda Agama (Ikhtilaf Ad-Din)', desc: 'Seorang Muslim tidak mewarisi dari non-Muslim dan sebaliknya. Ini merupakan perbedaan fundamental yang memutus ikatan waris.', color: 'border-orange-200 bg-orange-50' },
+            { icon: '⛓️', title: 'Perbudakan (Ar-Riqqu)', desc: 'Seorang hamba sahaya (budak) tidak memiliki hak waris karena secara hukum ia tidak memiliki hak kepemilikan penuh.', color: 'border-amber-200 bg-amber-50' },
+          ].map(p => `
+            <div class="flex gap-4 p-4 rounded-2xl border ${p.color}">
+              <span class="text-2xl flex-shrink-0">${p.icon}</span>
+              <div>
+                <div class="font-bold text-slate-800 text-sm mb-1">${p.title}</div>
+                <div class="text-xs text-slate-600 leading-relaxed">${p.desc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="bg-slate-800 rounded-2xl p-4 mt-4">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">💡 Penting Diketahui</div>
+          <p class="text-xs text-slate-300 leading-relaxed">Selain tiga penghalang mutlak di atas, terdapat konsep <strong class="text-white">Hijab</strong> (penghalang relatif) di mana seorang ahli waris bisa terhalang oleh keberadaan ahli waris yang lebih dekat hubungannya dengan pewaris.</p>
+        </div>
+      `
+    },
+  ];
+
+  /* ════════════════════════════════════════════════════
+     DATA: ARTICLES
+  ════════════════════════════════════════════════════ */
+  const articles = [
+    {
+      icon: '📖',
+      color: 'bg-blue-100 text-blue-700',
+      category: 'Dasar-Dasar',
+      title: 'Pengertian & Tujuan Hukum Waris Islam',
+      preview: 'Memahami definisi faraidh, tujuan pensyariatannya, dan kedudukan ilmu waris dalam Islam.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Pengertian Hukum Waris Islam</h4>
+        <p>Hukum waris Islam, atau <em>ilmu faraidh</em>, adalah ilmu yang membahas tata cara pembagian harta peninggalan seseorang yang telah meninggal dunia kepada ahli warisnya berdasarkan ketentuan Al-Qur'an dan Sunnah. Kata <em>faraidh</em> adalah bentuk plural dari <em>faridhah</em> yang berarti bagian atau kewajiban yang telah ditentukan.</p>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-3">Tujuan Pensyariatan</h4>
+        <ul class="list-disc ml-5 space-y-2">
+          <li>Mewujudkan keadilan dalam distribusi harta antara ahli waris laki-laki dan perempuan.</li>
+          <li>Mencegah sengketa dan konflik keluarga yang sering terjadi dalam masalah warisan.</li>
+          <li>Menjamin terpenuhinya hak-hak setiap individu dalam keluarga sesuai peran dan tanggung jawabnya.</li>
+          <li>Menjaga keutuhan dan keharmonisan keluarga muslim.</li>
+          <li>Memastikan harta tidak hanya menumpuk di satu tangan, melainkan tersebar secara adil.</li>
+        </ul>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-3">Kedudukan Ilmu Waris</h4>
+        <p>Nabi Muhammad SAW sangat menganjurkan umat Islam untuk mempelajari ilmu faraidh. Dalam sebuah hadits, beliau bersabda: <em>"Pelajarilah ilmu faraidh dan ajarkanlah, karena sesungguhnya ia adalah setengah dari ilmu, ia akan dilupakan, dan ia adalah ilmu pertama yang akan dicabut dari umatku."</em> (HR. Ibnu Majah & Ad-Daruquthni)</p>
+      `
+    },
+    {
+      icon: '⚖️',
+      color: 'bg-emerald-100 text-emerald-700',
+      category: 'Sumber Hukum',
+      title: 'Dasar Hukum Waris dalam Al-Qur\'an & Hadits',
+      preview: 'Menelusuri ayat-ayat Al-Qur\'an dan hadits yang menjadi fondasi hukum waris Islam.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Sumber Hukum Utama</h4>
+        <p>Hukum waris Islam memiliki sumber yang sangat kuat dan jelas: Al-Qur'an, Hadits Nabi SAW, dan Ijma' para ulama. Inilah yang membedakan faraidh dari sistem pewarisan lainnya — ia bukan produk adat atau kesepakatan manusia, melainkan wahyu Allah SWT.</p>
+        <div class="bg-emerald-50 border-l-4 border-emerald-600 rounded-r-2xl p-4 my-4">
+          <p class="font-bold text-emerald-700 text-xs uppercase tracking-widest mb-2">QS. An-Nisa: 11–12 & 176</p>
+          <p class="text-sm">Tiga ayat utama yang menjadi pilar hukum waris Islam, memuat ketentuan lengkap tentang bagian suami, istri, anak laki-laki, anak perempuan, orang tua, dan saudara.</p>
+        </div>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-3">Hadits Pendukung</h4>
+        <ul class="list-disc ml-5 space-y-2">
+          <li><em>"Berikanlah bagian-bagian faraidh kepada yang berhak, dan sisanya untuk laki-laki yang paling dekat."</em> (HR. Bukhari & Muslim)</li>
+          <li><em>"Tidak ada warisan bagi pembunuh."</em> (HR. Tirmidzi)</li>
+          <li><em>"Orang Islam tidak mewarisi orang kafir dan orang kafir tidak mewarisi orang Islam."</em> (HR. Bukhari & Muslim)</li>
+        </ul>
+      `
+    },
+    {
+      icon: '👨‍👩‍👧‍👦',
+      color: 'bg-violet-100 text-violet-700',
+      category: 'Ahli Waris',
+      title: 'Siapa Saja yang Termasuk Ahli Waris?',
+      preview: 'Mengenal golongan ahli waris nasabiyah, sababiyah, dzawil furudh, dan asabah secara lengkap.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Klasifikasi Ahli Waris</h4>
+        <p>Ahli waris dalam Islam dikelompokkan berdasarkan jenis hubungan dengan pewaris dan cara mereka menerima harta waris.</p>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-2">1. Berdasarkan Jenis Hubungan</h4>
+        <ul class="list-disc ml-5 space-y-1.5 text-sm">
+          <li><strong>Nasabiyah:</strong> Hubungan darah (orang tua, anak, saudara, paman, dll.)</li>
+          <li><strong>Sababiyah:</strong> Hubungan pernikahan (suami atau istri dari pewaris)</li>
+        </ul>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-2">2. Berdasarkan Cara Menerima</h4>
+        <ul class="list-disc ml-5 space-y-1.5 text-sm">
+          <li><strong>Dzawil Furudh:</strong> Menerima bagian yang sudah ditentukan Al-Qur'an (1/2, 1/4, 1/8, 2/3, 1/3, 1/6)</li>
+          <li><strong>Asabah:</strong> Menerima sisa harta setelah dzawil furudh mengambil bagiannya</li>
+          <li><strong>Dzawil Arham:</strong> Kerabat yang tidak termasuk dzawil furudh maupun asabah; mendapat warisan jika tidak ada yang lain</li>
+        </ul>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-2">Ahli Waris yang Tidak Pernah Terhalang (Tidak Bisa Mahjub)</h4>
+        <p class="text-sm">Terdapat 5 orang yang tidak pernah bisa terhalang: <strong>Suami, Istri, Ayah, Ibu, dan Anak Kandung</strong>. Mereka selalu mendapat bagian selama syaratnya terpenuhi.</p>
+      `
+    },
+    {
+      icon: '📊',
+      color: 'bg-amber-100 text-amber-700',
+      category: 'Perhitungan',
+      title: 'Cara Pembagian Harta Warisan',
+      preview: 'Panduan praktis langkah demi langkah menghitung dan membagikan harta waris secara benar.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Langkah-Langkah Pembagian Waris</h4>
+        <ol class="list-decimal ml-5 space-y-3 text-sm">
+          <li><strong>Inventarisasi Harta:</strong> Catat seluruh aset pewaris (properti, tabungan, investasi, dll.).</li>
+          <li><strong>Tunaikan Kewajiban Pertama:</strong> Sebelum dibagi, selesaikan: biaya pemakaman, hutang-piutang pewaris, wasiat (maks. 1/3 harta).</li>
+          <li><strong>Tentukan Ahli Waris:</strong> Identifikasi siapa saja yang berhak dan periksa kemungkinan hijab (penghalang).</li>
+          <li><strong>Tentukan Bagian Masing-masing:</strong> Berdasarkan ketentuan Al-Qur'an surat An-Nisa.</li>
+          <li><strong>Hitung Asal Masalah:</strong> Tentukan penyebut terkecil untuk menghindari konflik pembagian.</li>
+          <li><strong>Cek Radd atau Aul:</strong> Jika total bagian melebihi 100% (aul) atau kurang (radd), lakukan penyesuaian.</li>
+          <li><strong>Distribusi Fisik:</strong> Bagikan harta secara nyata kepada ahli waris.</li>
+        </ol>
+        <div class="bg-blue-50 rounded-2xl p-4 mt-4 border border-blue-200">
+          <p class="text-xs text-blue-700 font-semibold">💡 Konsultasi Ahli</p>
+          <p class="text-xs text-slate-600 mt-1">Untuk kasus yang kompleks, sangat dianjurkan berkonsultasi dengan ahli faraidh atau hakim pengadilan agama agar pembagian benar dan sah.</p>
+        </div>
+      `
+    },
+    {
+      icon: '⚡',
+      color: 'bg-pink-100 text-pink-700',
+      category: 'Kesetaraan',
+      title: 'Hak Waris Anak Laki-laki & Perempuan',
+      preview: 'Memahami hikmah di balik perbedaan bagian waris antara anak laki-laki dan perempuan dalam Islam.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Prinsip 2:1 dalam Perspektif Islam</h4>
+        <p>Salah satu hal yang sering dipertanyakan adalah mengapa anak laki-laki mendapat dua kali bagian anak perempuan (2:1). Jawabannya tersimpan dalam sistem keadilan holistik Islam.</p>
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 mt-4">
+          <p class="font-bold text-slate-700 text-sm mb-2">Kewajiban Finansial Laki-laki dalam Islam:</p>
+          <ul class="list-disc ml-5 space-y-1 text-xs text-slate-600">
+            <li>Membayar mahar (mas kawin) kepada istri</li>
+            <li>Menafkahi istri dan anak-anaknya</li>
+            <li>Menanggung biaya pendidikan dan kesehatan keluarga</li>
+            <li>Membayar hutang jika orang tua berhutang</li>
+          </ul>
+        </div>
+        <p class="mt-4 text-sm">Sementara itu, harta warisan yang diterima perempuan adalah <strong>muruk miliknya pribadi</strong> — tidak ada kewajiban finansial yang harus ia tunaikan dari harta tersebut. Sehingga secara praktis, harta yang diterima perempuan lebih "bersih" untuk dinikmati.</p>
+        <p class="mt-3 text-sm">Dengan mempertimbangkan seluruh sistem kewajiban dan hak ini, Islam justru mewujudkan keseimbangan yang adil antara laki-laki dan perempuan.</p>
+      `
+    },
+    {
+      icon: '🚫',
+      color: 'bg-red-100 text-red-700',
+      category: 'Penghalang',
+      title: 'Penghalang Waris & Konsep Hijab',
+      preview: 'Tiga penghalang mutlak waris dan konsep hijab (penghalang relatif) dalam hukum waris Islam.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Mawani'ul Irts: Tiga Penghalang Mutlak</h4>
+        <div class="space-y-3">
+          <div class="bg-red-50 rounded-xl p-4 border border-red-200">
+            <p class="font-bold text-red-700 text-sm">1. Al-Qatl (Pembunuhan)</p>
+            <p class="text-xs text-slate-600 mt-1">Seseorang yang membunuh pewaris secara sengaja tidak berhak mendapatkan warisan sama sekali. Hal ini dimaksudkan agar tidak ada orang yang membunuh untuk mempercepat mendapat warisan.</p>
+          </div>
+          <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
+            <p class="font-bold text-orange-700 text-sm">2. Ikhtilaf Ad-Din (Perbedaan Agama)</p>
+            <p class="text-xs text-slate-600 mt-1">Muslim tidak mewarisi non-Muslim dan sebaliknya. Hal ini berdasarkan hadits shahih dan kesepakatan ulama (ijma').</p>
+          </div>
+          <div class="bg-amber-50 rounded-xl p-4 border border-amber-200">
+            <p class="font-bold text-amber-700 text-sm">3. Ar-Riqqu (Perbudakan)</p>
+            <p class="text-xs text-slate-600 mt-1">Hamba sahaya tidak memiliki hak waris karena ia tidak memiliki kemampuan hukum untuk memiliki harta secara penuh.</p>
+          </div>
+        </div>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-3">Konsep Hijab (Penghalang Relatif)</h4>
+        <p class="text-sm text-slate-600">Hijab terbagi dua: <strong>Hijab Nuqshan</strong> (mengurangi bagian) dan <strong>Hijab Hirman</strong> (menggugurkan hak waris sama sekali). Contoh: kakek dimahjub oleh ayah; saudara dimahjub oleh anak laki-laki.</p>
+      `
+    },
+    {
+      icon: '🤝',
+      color: 'bg-teal-100 text-teal-700',
+      category: 'Resolusi',
+      title: 'Pentingnya Musyawarah dalam Pembagian Waris',
+      preview: 'Mengapa Islam menganjurkan musyawarah dan perdamaian (sulh) sebelum pembagian formal waris.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Islam Menganjurkan Musyawarah</h4>
+        <p>Meskipun hukum waris Islam telah menetapkan bagian masing-masing ahli waris secara pasti, Islam tetap membuka ruang untuk musyawarah, perdamaian, dan keikhlasan antar sesama ahli waris.</p>
+        <div class="bg-teal-50 rounded-2xl p-4 border border-teal-200 mt-4">
+          <p class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-2">Dasar Musyawarah</p>
+          <p class="text-sm italic text-slate-600">"Dan bermusyawarahlah dengan mereka dalam urusan itu." (QS. Ali Imran: 159)</p>
+        </div>
+        <h4 class="font-black text-slate-800 text-base mt-5 mb-3">Konsep Sulh (Perdamaian)</h4>
+        <p class="text-sm text-slate-600">Para ahli waris boleh bersepakat untuk membagi harta dengan cara berbeda dari ketentuan faraidh, asalkan:</p>
+        <ul class="list-disc ml-5 space-y-1.5 text-sm mt-2">
+          <li>Semua pihak hadir dan dewasa (tidak ada yang di bawah umur tanpa wali)</li>
+          <li>Kesepakatan dilakukan secara sukarela tanpa paksaan</li>
+          <li>Tidak ada pihak yang dirugikan secara zalim</li>
+        </ul>
+        <p class="mt-4 text-sm text-slate-600">Sulh yang sah secara syariat dan hukum positif memiliki kekuatan hukum yang mengikat dan diakui oleh pengadilan agama.</p>
+      `
+    },
+    {
+      icon: '🏛️',
+      color: 'bg-slate-200 text-slate-700',
+      category: 'Hukum & Praktis',
+      title: 'Penyelesaian Sengketa Waris di Indonesia',
+      preview: 'Jalur hukum formal dan alternatif untuk menyelesaikan sengketa warisan bagi umat Islam di Indonesia.',
+      content: `
+        <h4 class="font-black text-slate-800 text-base mb-3">Jalur Penyelesaian Sengketa Waris</h4>
+        <p>Ketika musyawarah tidak menghasilkan kesepakatan, Islam dan hukum positif Indonesia menyediakan beberapa jalur penyelesaian sengketa waris.</p>
+        <div class="space-y-3 mt-4">
+          <div class="flex gap-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+            <span class="text-xl">🕌</span>
+            <div>
+              <p class="font-bold text-slate-700 text-sm">1. Pengadilan Agama</p>
+              <p class="text-xs text-slate-500 mt-1">Berwenang mengadili sengketa waris bagi umat Islam berdasarkan UU No. 7 Tahun 1989 jo. UU No. 3 Tahun 2006. Menggunakan Kompilasi Hukum Islam (KHI) sebagai pedoman.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-200">
+            <span class="text-xl">🤝</span>
+            <div>
+              <p class="font-bold text-slate-700 text-sm">2. Mediasi & Arbitrase</p>
+              <p class="text-xs text-slate-500 mt-1">Penyelesaian di luar pengadilan melalui mediator atau lembaga arbitrase syariah. Lebih cepat, murah, dan menjaga kerahasiaan keluarga.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 p-4 rounded-2xl bg-violet-50 border border-violet-200">
+            <span class="text-xl">👨‍⚖️</span>
+            <div>
+              <p class="font-bold text-slate-700 text-sm">3. Konsultasi Notaris & PPAT</p>
+              <p class="text-xs text-slate-500 mt-1">Untuk urusan aset berupa tanah dan properti, pelibatan notaris/PPAT sangat penting untuk memastikan legalitas balik nama dan pengalihan hak.</p>
+            </div>
+          </div>
+        </div>
+      `
+    },
+  ];
+
+  /* ════════════════════════════════════════════════════
+     DATA: FAQ
+  ════════════════════════════════════════════════════ */
+  const faqs = [
+    {
+      q: 'Apakah anak perempuan berhak mendapat warisan dalam Islam?',
+      a: 'Ya, anak perempuan berhak mendapatkan warisan. Jika hanya seorang anak perempuan, ia mendapat 1/2 bagian. Jika dua orang anak perempuan atau lebih (tanpa saudara laki-laki), mereka bersama-sama mendapat 2/3. Jika ada saudara laki-laki, mereka menjadi asabah dengan nisbah 2:1 (laki-laki:perempuan).'
+    },
+    {
+      q: 'Berapa bagian istri jika suami meninggal?',
+      a: 'Istri mendapat 1/4 bagian dari harta suami jika tidak ada anak. Jika ada anak (dari istri mana pun), istri mendapat 1/8 bagian. Jika suami memiliki lebih dari satu istri, bagian 1/4 atau 1/8 tersebut dibagi rata di antara semua istri.'
+    },
+    {
+      q: 'Apa yang dimaksud dengan "Asabah" dalam hukum waris Islam?',
+      a: 'Asabah adalah golongan ahli waris yang menerima sisa harta setelah para dzawil furudh (ahli waris dengan bagian pasti) mengambil bagian mereka. Jika tidak ada dzawil furudh, asabah mengambil seluruh harta. Anak laki-laki adalah asabah binafsih yang paling utama.'
+    },
+    {
+      q: 'Apakah wasiat wajib hukumnya dalam Islam?',
+      a: 'Wasiat sangat dianjurkan (sunnah mu\'akkadah) bagi seseorang yang meninggalkan harta yang cukup banyak. Namun wasiat hanya berlaku untuk orang yang bukan ahli waris (karena ahli waris sudah diatur faraidh) dan maksimal 1/3 dari total harta bersih. Wasiat melebihi 1/3 atau kepada ahli waris memerlukan persetujuan semua ahli waris lainnya.'
+    },
+    {
+      q: 'Bagaimana jika pewaris tidak memiliki ahli waris sama sekali?',
+      a: 'Jika pewaris tidak memiliki ahli waris nasabiyah maupun sababiyah yang berhak, harta warisan diserahkan kepada Baitul Mal (kas negara) untuk dimanfaatkan bagi kepentingan umat Islam secara umum. Ini sesuai pendapat jumhur (mayoritas) ulama.'
+    },
+  ];
+
+
+
+  /* ════════════════════════════════════════════════════
+     NAVIGATION
+  ════════════════════════════════════════════════════ */
+  const pageIds = ['beranda', 'peta-belajar', 'artikel-edukasi', 'kuis-interaktif', 'profil-kontak'];
+  const progressMap = { 'beranda': 5, 'peta-belajar': 25, 'artikel-edukasi': 50, 'profil-kontak': 100 };
+
+  function navigateTo(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // Show target
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.add('active');
+
+    // Update nav
+    document.querySelectorAll('.nav-btn[id^="nav-"]').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('nav-' + pageId);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    state.currentPage = pageId;
+
+    // Update progress bar
+    const pct = progressMap[pageId] || 0;
+    document.getElementById('progress-bar-fill').style.width = pct + '%';
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Mark modules as visited
+    if (pageId === 'peta-belajar') {
+      state.modulesVisited.add('visited');
+      updateHeroStats();
+    }
+  }
+
+  /* ════════════════════════════════════════════════════
+     DRAWER
+  ════════════════════════════════════════════════════ */
+  function toggleDrawer() {
+    const drawer = document.getElementById('mobile-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const isOpen = drawer.classList.contains('open');
+    if (isOpen) {
+      drawer.classList.remove('open');
+      overlay.classList.add('hidden');
+    } else {
+      drawer.classList.add('open');
+      overlay.classList.remove('hidden');
+    }
+  }
+
+  /* ════════════════════════════════════════════════════
+     SCENARIO SIMULATOR
+  ════════════════════════════════════════════════════ */
+  function loadScenario(index, btn) {
+    const sc = scenarios[index];
+    // Update button states
+    document.querySelectorAll('.scenario-btn').forEach(b => {
+      b.classList.remove('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
+      b.classList.add('border-slate-200', 'text-slate-600', 'bg-white');
+    });
+    btn.classList.add('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
+    btn.classList.remove('border-slate-200', 'text-slate-600', 'bg-white');
+
+    const out = document.getElementById('scenario-output');
+    out.style.opacity = '0';
+    out.style.transform = 'translateY(10px)';
+
+    setTimeout(() => {
+      out.innerHTML = `
+        <div class="mb-4">
+          <div class="font-black text-slate-800 text-base mb-1">${sc.title}</div>
+          <p class="text-sm text-slate-500">${sc.desc}</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+          ${sc.ahliWaris.map(aw => `
+            <div class="border rounded-2xl p-4 ${aw.color}">
+              <div class="font-bold text-sm mb-1">${aw.nama}</div>
+              <div class="text-xl font-black mb-1">${aw.bagian}</div>
+              <div class="text-xs opacity-75 mb-2">${aw.alasan}</div>
+              <div class="font-semibold text-sm border-t border-current border-opacity-20 pt-2">${aw.jumlah}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="flex items-start gap-2 bg-white rounded-xl p-3 border border-slate-200">
+          <span class="text-sm">💡</span>
+          <p class="text-xs text-slate-600"><strong>Catatan:</strong> ${sc.note}</p>
+        </div>
+      `;
+      out.style.transition = 'all 0.35s ease';
+      out.style.opacity = '1';
+      out.style.transform = 'translateY(0)';
+    }, 120);
+  }
+
+  /* ════════════════════════════════════════════════════
+     MODULE ACCORDIONS
+  ════════════════════════════════════════════════════ */
+  function buildModules() {
+    const container = document.getElementById('modules-container');
+    container.innerHTML = modules.map((mod, i) => `
+      <div class="module-card bg-white rounded-3xl border-2 border-slate-200 overflow-hidden transition-all duration-300" id="card-${mod.id}">
+        <button class="w-full flex items-center gap-4 p-6 text-left" onclick="toggleModule('${mod.id}', ${i})">
+          <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-xl flex-shrink-0">${mod.icon}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5 flex-wrap">
+              <span class="text-xs font-black text-slate-300">MODUL ${mod.number}</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${mod.tagColor}">${mod.tag}</span>
+            </div>
+            <div class="font-black text-slate-800 text-base leading-tight">${mod.title}</div>
+          </div>
+          <svg id="arrow-${mod.id}" class="accordion-arrow w-5 h-5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-body" id="body-${mod.id}">
+          <div class="px-6 pb-6 pt-0 space-y-4 border-t border-slate-100">
+            ${mod.content}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleModule(modId, index) {
+    const body = document.getElementById('body-' + modId);
+    const arrow = document.getElementById('arrow-' + modId);
+    const card = document.getElementById('card-' + modId);
+    const isOpen = body.classList.contains('open');
+
+    if (isOpen) {
+      body.classList.remove('open');
+      arrow.classList.remove('rotated');
+      card.classList.remove('open', 'border-emerald-600');
+      card.classList.add('border-slate-200');
+      state.openModules.delete(modId);
+    } else {
+      body.classList.add('open');
+      arrow.classList.add('rotated');
+      card.classList.add('open', 'border-emerald-600');
+      card.classList.remove('border-slate-200');
+      state.openModules.add(modId);
+      state.modulesVisited.add(modId);
+    }
+    updateHeroStats();
+  }
+
+  /* ════════════════════════════════════════════════════
+     ARTICLE GRID
+  ════════════════════════════════════════════════════ */
+  function buildArticleGrid() {
+    const grid = document.getElementById('article-grid');
+    grid.innerHTML = articles.map((art, i) => `
+      <div class="article-card bg-white rounded-3xl border border-slate-200 shadow-card overflow-hidden flex flex-col">
+        <div class="p-5 flex-1">
+          <div class="w-12 h-12 ${art.color} rounded-2xl flex items-center justify-center text-2xl mb-4">${art.icon}</div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">${art.category}</div>
+          <h3 class="font-black text-slate-800 text-sm leading-tight mb-2">${art.title}</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">${art.preview}</p>
+        </div>
+        <div class="px-5 pb-5 flex items-center justify-between">
+          <div class="read-badge ${state.articlesRead.has(i) ? 'visible' : ''} items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full" id="badge-${i}">
+            ✓ Selesai
+          </div>
+          <button onclick="openArticle(${i})" class="flex items-center gap-1.5 bg-slate-900 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors">
+            Buka Materi →
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ════════════════════════════════════════════════════
+     MODAL
+  ════════════════════════════════════════════════════ */
+  function openArticle(index) {
+    const art = articles[index];
+    state.currentModalArticleIndex = index;
+
+    document.getElementById('modal-category').textContent = art.category;
+    document.getElementById('modal-title').textContent = art.title;
+    document.getElementById('modal-body').innerHTML = `<div class="prose-sm">${art.content}</div>`;
+
+    // Read status
+    const isRead = state.articlesRead.has(index);
+    document.getElementById('modal-read-status').textContent = isRead ? '✅ Sudah ditandai selesai' : 'Belum ditandai selesai';
+    document.getElementById('mark-read-icon').textContent = isRead ? '☑' : '☐';
+    document.getElementById('mark-read-text').textContent = isRead ? 'Sudah Selesai Dibaca' : 'Tandai Selesai Dibaca';
+    document.getElementById('modal-mark-read-btn').className = isRead
+      ? 'bg-slate-200 text-slate-600 font-bold text-sm px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2 cursor-default'
+      : 'bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2';
+
+    document.getElementById('article-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('article-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function markArticleRead() {
+    const i = state.currentModalArticleIndex;
+    if (i === null || state.articlesRead.has(i)) return;
+
+    state.articlesRead.add(i);
+
+    // Update modal UI
+    document.getElementById('modal-read-status').textContent = '✅ Artikel ini telah diselesaikan!';
+    document.getElementById('mark-read-icon').textContent = '☑';
+    document.getElementById('mark-read-text').textContent = 'Sudah Selesai Dibaca';
+    document.getElementById('modal-mark-read-btn').className = 'bg-slate-200 text-slate-600 font-bold text-sm px-6 py-2.5 rounded-xl transition-colors flex items-center gap-2 cursor-default';
+
+    // Update badge in grid
+    const badge = document.getElementById('badge-' + i);
+    if (badge) badge.classList.add('visible');
+
+    // Show toast
+    showToast('🎉 Artikel selesai dibaca! +1 Poin Belajar');
+    updateHeroStats();
+  }
+
+  /* ════════════════════════════════════════════════════
+     TOAST NOTIFICATION
+  ════════════════════════════════════════════════════ */
+  function showToast(msg) {
+    const existing = document.getElementById('toast');
+    if (existing) existing.remove();
+
+    const t = document.createElement('div');
+    t.id = 'toast';
+    t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-semibold px-6 py-3 rounded-2xl shadow-xl z-[99999] flex items-center gap-2 transition-all';
+    t.innerHTML = msg;
+    document.body.appendChild(t);
+
+    // Animate in
+    setTimeout(() => { t.style.opacity = '1'; }, 50);
+    setTimeout(() => {
+      t.style.opacity = '0';
+      setTimeout(() => t.remove(), 400);
+    }, 3000);
+  }
+
+  /* ════════════════════════════════════════════════════
+     FAQ ACCORDION
+  ════════════════════════════════════════════════════ */
+  function buildFaq() {
+    const container = document.getElementById('faq-container');
+    container.innerHTML = faqs.map((faq, i) => `
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-card overflow-hidden">
+        <button class="w-full flex items-center justify-between gap-4 px-5 py-4 text-left" onclick="toggleFaq(${i})">
+          <span class="text-sm font-bold text-slate-700 leading-snug">${faq.q}</span>
+          <svg id="faq-arrow-${i}" class="accordion-arrow w-4 h-4 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="accordion-body" id="faq-body-${i}">
+          <div class="px-5 pb-4 pt-0 border-t border-slate-100">
+            <p class="text-sm text-slate-500 leading-relaxed pt-3">${faq.a}</p>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleFaq(index) {
+    const body = document.getElementById('faq-body-' + index);
+    const arrow = document.getElementById('faq-arrow-' + index);
+    const isOpen = body.classList.contains('open');
+
+    // Close all others
+    faqs.forEach((_, i) => {
+      if (i !== index) {
+        document.getElementById('faq-body-' + i)?.classList.remove('open');
+        document.getElementById('faq-arrow-' + i)?.classList.remove('rotated');
+      }
+    });
+
+    if (isOpen) {
+      body.classList.remove('open');
+      arrow.classList.remove('rotated');
+    } else {
+      body.classList.add('open');
+      arrow.classList.add('rotated');
+    }
+  }
+
+  /* ════════════════════════════════════════════════════
+     CONTACT FORM
+  ════════════════════════════════════════════════════ */
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const text = document.getElementById('submit-text');
+
+    btn.disabled = true;
+    text.innerHTML = '<span class="inline-block animate-spin mr-2">⏳</span> Mengirim...';
+
+    setTimeout(() => {
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('form-success').classList.remove('hidden');
+      showToast('✉️ Pesan Anda telah terkirim!');
+    }, 1800);
+  }
+
+  /* ════════════════════════════════════════════════════
+   FUNGSI UTALITAS: GLOBAL TOAST ALERT
+   ════════════════════════════════════════════════════ */
+function showToast(message) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = "bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-auto border border-slate-800";
+  toast.innerHTML = message;
+
+  container.appendChild(toast);
+
+  // Trigger transisi masuk
+  setTimeout(() => {
+    toast.classList.remove('translate-y-10', 'opacity-0');
+  }, 10);
+
+  // Hapus otomatis setelah 3.5 detik
+  setTimeout(() => {
+    toast.classList.add('translate-y-10', 'opacity-0');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 3500);
+}
+
+  /* ════════════════════════════════════════════════════
+     HERO STATS
+  ════════════════════════════════════════════════════ */
+  function updateHeroStats() {
+    const art = state.articlesRead.size;
+    const mod = state.openModules.size;
+    const quizPct = Math.round((state.quizScore / 3) * 100);
+    const total = Math.min(100, Math.round((art / 8 * 40) + (mod / 5 * 40) + (quizPct * 0.2)));
+
+    document.getElementById('hero-articles-read').textContent = art;
+    document.getElementById('hero-modules-read').textContent = mod;
+    document.getElementById('hero-quiz-score').textContent = state.quizScore > 0 ? `${state.quizScore}/3` : '–';
+    document.getElementById('hero-progress-pct').textContent = total + '%';
+    document.getElementById('hero-progress-fill').style.width = total + '%';
+  }
+
+  /* ════════════════════════════════════════════════════
+     CLOSE MODAL ON OVERLAY CLICK
+  ════════════════════════════════════════════════════ */
+  document.getElementById('article-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  /* ════════════════════════════════════════════════════
+     INIT
+  ════════════════════════════════════════════════════ */
+  (function init() {
+    buildModules();
+    buildArticleGrid();
+    buildFaq();
+    buildQuiz();
+    loadScenario(0, document.querySelector('.scenario-btn'));
+    navigateTo('beranda');
+  })();
+  </script>
+
+</body>
+</html>
